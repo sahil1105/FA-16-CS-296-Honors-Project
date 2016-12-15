@@ -16,54 +16,54 @@ Enter 'status' to get the status.
 
 ## Solution:
 Here are the answers to the three puzzles:
-mary
-secret
-name
+1. mary
+2. secret
+3. name
 
 ## Sample Run:
 Here is a sample run that would work:
-pickup note
-read note
-south
-get laptop
-get phone
-read notification
-east
-pickup all_access_pass
-west
-north
-north
-get bagel
-get coffee
-east bagel
-drink coffee
-north
-get first_question
-read first_question
-interact
-south
-south
-downstairs
-south
-get second_question
-read second_question
-north
-upstairs
-upstairs
-chill
-north
-north
-interact
-get second_question
-south
-west
-enter
-use all_access_pass
-answer
-mary
-secret
-name
-release
+`pickup note`
+`read note`
+`south`
+`get laptop`
+`get phone`
+`read notification`
+`east`
+`pickup all_access_pass`
+`west`
+`north`
+`north`
+`get bagel`
+`get coffee`
+`east bagel`
+`drink coffee`
+`north`
+`get first_question`
+`read first_question`
+`interact`
+`south`
+`south`
+`downstairs`
+`south`
+`get second_question`
+`read second_question`
+`north`
+`upstairs`
+`upstairs`
+`chill`
+`north`
+`north`
+`interact`
+`get second_question`
+`south`
+`west`
+`enter`
+`use all_access_pass`
+`answer`
+`mary`
+`secret`
+`name`
+`release`
 
 
 This is a very short solution. Other than this there are a lot of other opportunities to explore the building and even outside the building.
