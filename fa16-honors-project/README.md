@@ -20,8 +20,8 @@ Here are the answers to the three puzzles:
 2. secret
 3. name
 
-## Sample Run:
-Here is a sample run that would work:
+## Sample Solution:
+Here is a sample instruction stream that would work:
 `pickup note`
 `read note`
 `south`
