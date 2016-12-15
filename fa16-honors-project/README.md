@@ -68,6 +68,6 @@ release
 
 This is a very short solution. Other than this there are a lot of other opportunities to explore the building and even outside the building.
 
-Hope it's enjoyable.
+Hope you enjoy it.
 
 
