@@ -52,7 +52,7 @@
                  :contents #{"flash_light"}
                  }
     :academic_office {:desc "Where every CS Major is on drop deadline"
-                      :tile "inside The Academic Office"
+                      :title "inside The Academic Office"
                       :dir {:west :ACM_Office
                             }
                       :contents #{"all_access_pass"}
@@ -92,7 +92,7 @@
                       }
                 :contents #{}
                 }
-    :VR_Lab {:desc "Where all the kids want to work at some point. One of the VR Headsets is powered on. Lets check it out. Why don't you 'try the VR Headset'?"
+    :VR_Lab {:desc "Where all the kids want to work at some point. One of the VR Headsets is powered on. Lets check it out. Why don't you 'interact'?"
              :title "at the VR Lab"
              :dir {:south :Classroom
                    }
@@ -106,13 +106,13 @@
                           }
                     :contents #{}
                     }
-    :Repair-Lab {:desc "Never been here. They say they can fix anything here. Might be worth it to pick up a few tools. I see..."
+    :Repair-Lab {:desc "Never been here. They say they can fix anything here. Might be worth it to pick up a few tools. I see a toolkit, a wrench and some goggles."
                  :title "inside the repair lab or whatever it's called"
                  :dir {:west :Chilling-Area
                        }
                  :contents #{"toolkit" "wrench" "goggles"}
                  }
-    :Destination {:desc "The final stop. Type 'enter' to enter the room. Once you are in the room type 'interact' to interact with the computer to answer the three questions you found to release your friends."
+    :Destination {:desc "The final stop. Type 'enter' to enter the room. Once you are in the room type 'interact' or 'answer' to interact with the computer to answer the three questions you found to release your friends."
                   :title "at the final destination"
                   :dir {:east :Classroom
                         }
@@ -123,28 +123,30 @@
   )
 
   (def adventurer
-    {:name ""
-     :location :staircase
+    {:location :staircase
      :inventory #{}
      :hasQuestion1 false
      :hasQuestion2 false
      :hasQuestion3 false
      :answeredAllThree false
      :seen #{}
+     :unlocked_destination false
      }
     )
 
-(def introMessage "Hi, You are near the staircase on the 1st floor of Siebel Center. There's no one around. You can move around and find what's going on. Type 'help' to get a list of commands. Type 'status' to get more info about where you are. Print 'inventory' to get a list of your inventory at any time.")
+(def introMessage "Hi, You are near the staircase on the 1st floor of Siebel Center. There's no one around. You can move around and find what's going on. Type 'help' to get a list of commands. Type 'status' to get more info about where you are. Type 'inv' to get a list of your inventory at any time.")
 
-(defn status[player]
+(defn status [player]
   (let [location (player :location)]
     (println (str "You are " (-> the-map location :title) ". "))
+    
+    (println (str "Have question one? " (player :hasQuestion1)))
+    (println (str "Have question two? " (player :hasQuestion2)))
+    (println (str "Have question three? " (player :hasQuestion3)))
     (when-not ((player :seen) location)
       (println (-> the-map location :desc)))
     (update-in player [:seen] #(conj % location))
-    (println (str "Has question one? " (player :hasQuestion1)))
-    (println (str "Has question two? " (player :hasQuestion2)))
-    (println (str "Has question three? " (player :hasQuestion2)))))
+    ))
 
 (defn go [dir player]
   (let [location (player :location)
@@ -180,18 +182,18 @@
         q2 (player :hasQuestion2)
         q3 (player :hasQuestion3)
         inv (player :inventory)
-        unlocked (->> the-map :Destination :unlocked)
+        unlocked (player :unlocked_destination)
         ]
     (cond (= location :lecture_hall) (do (println "Your friends need to be rescued. What are you still doing here?") player)
-          (= location :VR_Lab) (do (println "Here's your second question: ..... To store it in the inventory, type 'get question_two'")
+          (= location :VR_Lab) (do (println "Here's your third question: What belongs to you, but is used by others more than you? \n To store it in the inventory, type 'get third_question'")
                                         (assoc-in player [:hasQuestion2] true))
-          (and (= location :Destination) (q1) (q2) (q3) (contains? inv "all_access_pass") (unlocked)) (puzzle player)
+          (and (= location :Destination) (= q1 true) (= q2 true) (= q3 true) (contains? inv "all_access_pass") (= unlocked true)) (puzzle player)
           :else (do (println "Invalid command at this point") player)
     )))
 
 (defn release [player]
   (let [ans (player :answeredAllThree)]
-    (if (ans) (do (println "Congratulations! You have rescued your friends.")) (do (println "Sorry, you haven't answered all the questions yet") player) )
+    (if (= ans true) (do (println "Congratulations! You have rescued your friends.") player) (do (println "Sorry, you haven't answered all the questions yet") player) )
     ))
 
 (defn enter [player]
@@ -201,7 +203,8 @@
       )))
 
 (defn answer [player]
-  (if (= (player :location) (:Destination)) (interact player) (do (println "Wrong place to call the command in") player)))
+  (let [location (player :location)]
+    (if (= location :Destination) (interact player) (do (println "Wrong place to call the command in") player))))
 
 (defn pickup [object player]
   (let [location (player :location)
@@ -247,7 +250,9 @@
   (let [inv (player :inventory)
         location (player :location)]
     (cond (and (contains? inv "flash_light") (= (name object) "flash_light")) (do (println "I can do that but it's middle of the day and you'd just be wasting batteries.") player)
-          (and (= location :Destination) (= (name object) "all_access_pass")) (do (println "Alright, the door is unlocked") (assoc-in (-> the-map :Destination :unlocked) true))
+          (and (= location :Destination) (= (name object) "all_access_pass")) 
+          (do (println "Alright, the door is unlocked") 
+              (assoc-in player [:unlocked_destination] true))
           :else (do (println "Can't use that") player))))
 
 (defn get [object player]
@@ -293,7 +298,7 @@
          [:interact] (interact player)
          [:chill] (do (println "You're now refreshed") player)
          [:break] (do (println "This is Siebel. We don't break things here") player)
-         [:release_your_friends] (release player)
+         [:release] (release player)
          [:enter] (enter player)
          [:answer] (answer player)
          [:inv] (print_inventory player)
@@ -317,7 +322,7 @@
     (let [pl (status local-player)
           _  (println "What do you want to do?")
           command (read-line)]
-      (recur local-map (respond local-player (to-keywords command))))))
+      (recur local-map (respond pl (to-keywords command))))))
   
 
 
