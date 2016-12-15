@@ -35,7 +35,7 @@ Here is a sample run that would work:
 `north`
 `get bagel`
 `get coffee`
-`east bagel`
+`eat bagel`
 `drink coffee`
 `north`
 `get first_question`
@@ -54,7 +54,7 @@ Here is a sample run that would work:
 `north`
 `north`
 `interact`
-`get second_question`
+`get third_question`
 `south`
 `west`
 `enter`
