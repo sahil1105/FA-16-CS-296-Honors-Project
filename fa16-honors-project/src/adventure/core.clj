@@ -160,7 +160,7 @@
     (do (println (seq (player :inventory)))
       player))
 
-(def help "Here are some of the commands you can use: \n Directions: \n north, south, west, east, upstairs, downstairs \n Actions: \n pickup, read, get, eat, drink, interact, chill, break, release_your_friends, enter, answer")
+(def help "Here are some of the commands you can use: \n Directions: \n north, south, west, east, upstairs, downstairs \n Actions: \n pickup, read, use, get, eat, drink, interact, chill, break, release, enter, answer, inv, status")
 
 (defn puzzle [player]
   (println "Enter your answers to the three questions, one per line.")
