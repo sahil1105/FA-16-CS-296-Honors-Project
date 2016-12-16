@@ -1,6 +1,3 @@
-# FA-16-CS-296-Honors-Project
-Final Project for FA16 CS296 Section 25
-
 # CS 296-25 Honors Project
 
 This repository contains my final code for the Text Adventure Game.
