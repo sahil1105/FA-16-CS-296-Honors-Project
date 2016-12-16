@@ -39,7 +39,7 @@
                    :contents #{"first_question" "computer"}
                    }
     :Garden {:desc "No one here either. Lovely place though, if only it had wifi."
-             :tile "at the garden across siebel which no one uses"
+             :title "at the garden across siebel which no one uses"
              :dir {:west :Study-Area
                    :east :staircase
                    }
@@ -58,7 +58,7 @@
                       :contents #{"all_access_pass"}
                       }
     :outside {:desc "Not much here, what else did you expect? Lets go back to the ACM Office"
-              :tile "Outside Siebel"
+              :title "Outside Siebel"
               :dir {:north :ACM_Office
                     }
               :contents #{}
