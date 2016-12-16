@@ -45,7 +45,7 @@
                    }
              :contents #{}
              }
-    :WCS_Office {:desc "small office, not much around"
+    :WCS_Office {:desc "small office, not much around, except for a handy flash_light"
                  :title "at the WCS Office"
                  :dir {:west :staircase
                  }
